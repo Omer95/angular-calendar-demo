@@ -30,7 +30,7 @@ export class DemoComponent implements OnInit {
 
   // tslint:disable-next-line:no-inferrable-types
   view: string = 'month';
-  currDay = new Date().getUTCDate();
+  currDay = new Date().getDate();
   viewDate: Date = new Date();
 
   modalData: {
@@ -99,24 +99,26 @@ export class DemoComponent implements OnInit {
       const startDate = event.start;
       const endDate = event.end;
       let result;
-      if ((startDate.getUTCDate() + 1) === (endDate.getUTCDate() + 1)) {
-        result = [startDate.getUTCDate()];
+      if ((startDate.getDate()) === (endDate.getDate())) {
+        result = [startDate.getDate()];
       } else {
         result = [];
-        for (let i = (startDate.getUTCDate() + 1); i <= (endDate.getUTCDate() + 1); i++) {
+        for (let i = (startDate.getDate()); i <= (endDate.getDate()); i++) {
           result.push(i);
         }
       }
-      console.log(result);
+      // console.log(event.title + ' ' + (startDate.getDate()) + ' ' + (endDate.getDate()) + ' ' + result);
       for (let j = 0; j < result.length; j++) {
         if (result[j] === this.currDay) {
           return true;
-        } else {
-        return false;
         }
       }
+      return false;
+    } else {
+      return (this.currDay === event.start.getDate());
     }
   }
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -163,8 +165,8 @@ export class DemoComponent implements OnInit {
     this.refresh.next();
   }
   weekdayClicked(event) {
-    this.currDay = event.day.date.getUTCDate() + 1;
-    console.log('day clicked: ', event.day.date.getUTCDate() + 1);
+    this.currDay = event.day.date.getDate();
+    console.log('day clicked: ', event.day.date.getDate());
   }
   ngOnInit() {
   }
